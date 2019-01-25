@@ -1,0 +1,34 @@
+Use Python 3.X for ease of drafting
+
+Receive texts as PDFs. Convert PDFs to .txt to receive word list.
+	PDFMiner
+
+Convert PDFs to text files automatically in /Data folder.
+
+Cannot redistribute PDFs or .txt equivalents, but can save histogram files for a demo data set.
+
+Construct a histogram from each text, where each bin of the histogram is a word. E.g. count the occurences of words in each example text.
+Compare histograms between texts. Only keep words that are common to both texts. E.g. the union of texts
+For words that appear in multiple classes, the word will be attributed to the class in which it occurs the most often.
+If a word occurs many times, at least as many as a threshold, that word will not be added to any class.
+	This threshold could be computed by comparing the count to the overall size of the text. E.g. parameterless.
+
+Each class is defined by a folder in the /Data folder. Each folder in the /Data folder, e.g. /Data/MyClass, should contain .txt files or .pdf files (which will be automatically converted to .txt files of the same name).
+
+Classes can be stored in .json
+Unknown words will simply not be highlighted (e.g. words that are not classified, or words that are above a threshold)
+	However, I want to differentiate between unknown words and words that occur beyond a threshold
+	So, there will be a class called "common" which will contain common words such as: the, he, him, her, they, etc.
+	Semantic analysis would be quite difficult since not all texts are written in the same verb tense or point of view (1st, 2nd, 3rd)
+
+For prototype: output classified words as a markdown file (CSS type highlighting)
+
+1. The list of folders in /Data is enumerated
+2. Each .pdf file is converted to a .txt plain text file
+3. Each .txt file is loaded
+4. Instances of the following characters are removed: "," "." ";" ":"
+5. The text is split into a list of space separated words
+6. A histogram is made for each list of words, where each unique word is a bin
+	A dictionary can be used to store counts in a single pass
+7. Words that occur at least as often as a threshold are removed
+8.
