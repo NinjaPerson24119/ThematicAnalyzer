@@ -1,5 +1,9 @@
 import sys
 import os
+from train import tokenize
+import math
+
+colorContrastMultiplier = 8
 
 def main():
   # verify arg
@@ -26,11 +30,15 @@ def main():
     for line in fp.readlines():
       contents += line
 
+  # tokenize input text
+  tokens = tokenize(contents)
+
   # enumerate classes
   classFiles = next(os.walk('../result'))[2]
   if len(classFiles) == 0:
     print("No classes to label from")
     return
+  classFiles.remove('.dummy')
 
   # get class names from filenames
   classNames = []
@@ -41,18 +49,49 @@ def main():
   classWords = []
   for f in classFiles:
     classContents = ''
-    with open('../result/' + f, 'r') as fp
+    with open('../result/' + f, 'r') as fp:
       for line in fp.readlines():
         classContents += line
     thisClassWords = classContents.split('\n')
     classWords.append(thisClassWords)
 
-  #
+  # enumerate colors in 1D line: 256^3
+  colors = []
+  floorColor = (7*16+7)**3
+  colorDist = math.floor((256**3 - floorColor) / (len(classNames) * colorContrastMultiplier))
+  for i in range(0, len(classNames)):
+    color = floorColor + i * colorDist
+    hexString = hex(color)
+    colors.append(hexString[2:])
 
   # try to apply each class
-  for i in range(0, len(classNames)):
-    # iterate words to look for
-    for w in classWords[i]:
-      labelled = 
+  for token in tokens:
+    if token[1] == True:
+      for i in range(0, len(classNames)):
+        # iterate words to look for
+        for w in classWords[i]:
+          if token[0] == w:
+            token[0] = '<span style="background-color: #{}">{}</span>'.format(colors[i], token[0])
+       
+  # rebuild text with stylized tokens
+  rebuilt = ''
+  for token in tokens:
+    rebuilt += token[0]
 
-main()
+  # write rebuilt text to file
+  with open(filePath[:-4] + '.md', 'w') as fp:
+    # build legend
+    fp.write('Legend:<br />')
+    for i in range(0, len(classNames)):
+      fp.write('<span style="background-color: #{}">{}</span><br />'.format(colors[i], classNames[i]))
+    fp.write('<br />')
+
+    # fix tabs and newlines
+    rebuilt = rebuilt.replace('\n', '<br />')
+    rebuilt = rebuilt.replace('\t', '&nbsp;'*4)
+
+    # write contents
+    fp.write(rebuilt)
+
+if __name__ == "__main__":
+   main()
