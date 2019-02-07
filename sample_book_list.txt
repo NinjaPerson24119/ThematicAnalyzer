@@ -1,0 +1,19 @@
+Fantasy:
+	Brent Weeks - The Way of Shadows
+	Terry Goodkind - Phantom
+
+Horror:
+	Bret Easton Ellis - American Psycho
+	H.P. Lovecraft - In the Vault, and The Lurking Fear
+
+Math:
+	Linear Algebra: An Introductory Approach
+	Assorted math notes
+
+Occult:
+	Modern Magick
+	The Magical Philosophy
+
+Science Fiction:
+	Eric Nylund - Halo: The Fall of Reach
+	The Hitchhiker's Guide to the Galaxy
