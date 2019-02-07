@@ -7,3 +7,5 @@ Since classes cannot contain the same words, a word with multiple classes goes t
 Training produces a word list in the format of .txt for every class. These go in /result
 
 Running label.py will produce a highlighted markdown file from the .txt file passed in the arg. Each class is highlighted with a different color, and a legend is built at the top of the result .md file.
+
+The sample classes are included in /result
